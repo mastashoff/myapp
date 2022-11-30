@@ -15,5 +15,6 @@ jobs:
     - name: shell commands
       run: |
         echo "Hello ${{ github.repository }}",
-        ls -la,
-        cat Version
+        
+    - name: list files
+      run: ls -la
