@@ -20,7 +20,7 @@ jobs:
     - name: list and cat
       run: | 
         ls -la,
-        cat ./Version
+        cat ./Version,
     - name: increment version  
       run: bc <<< "1 + $(<./Version)" > ./Version  
     - name: cat new Version
