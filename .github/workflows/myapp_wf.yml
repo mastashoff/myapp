@@ -17,6 +17,11 @@ jobs:
     - name: shell commands
       run: |
         echo "Hello ${{ github.repository }}",
-        
-    - name: list files
-      run: ls -la
+    - name: list and cat
+      run: | 
+        ls -la,
+        cat ./Version
+    - name: increment version  
+      run: bc <<< "1 + $(<./Version)" > ./Version  
+    - name: cat new Version
+      run: cat ./Version  
