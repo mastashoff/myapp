@@ -8,20 +8,20 @@ on:
       - main
 
 jobs:
-  job1:
+  build:
     runs-on: ubuntu-latest
 
     steps:
     - name: checkout
       uses: actions/checkout@v3
-    - name: shell commands
-      run: |
-        echo "Hello ${{ github.repository }}"
-    - name: list and cat
-      run: | 
-        ls -la
-        cat ./Version
     - name: increment version  
-      run: bc <<< "1 + $(<./Version)" > ./Version  
-    - name: cat new Version
-      run: cat ./Version  
+      run: bc <<< "1 + $(<./Version)" > ./Version    
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag mastashoff/myapp:$(cat ./Version)
+    - name: push to docker hub  
+      run: docker push -a mastashoff/myapp
+      
+      
+      
+      
+      
