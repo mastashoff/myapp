@@ -16,11 +16,11 @@ jobs:
       uses: actions/checkout@v3
     - name: shell commands
       run: |
-        echo "Hello ${{ github.repository }}",
+        echo "Hello ${{ github.repository }}"
     - name: list and cat
       run: | 
-        ls -la,
-        cat ./Version,
+        ls -la
+        cat ./Version
     - name: increment version  
       run: bc <<< "1 + $(<./Version)" > ./Version  
     - name: cat new Version
