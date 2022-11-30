@@ -1,0 +1,19 @@
+
+name: myapp-workflow
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: shell commands
+      run: |
+        echo "Hello ${{ github.repository }}",
+        ls -la,
+        cat Version
