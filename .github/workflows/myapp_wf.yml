@@ -8,14 +8,17 @@ on:
       - main
 
 jobs:
-  build:
+  build_new_image:
     runs-on: ubuntu-latest
 
     steps:
     - name: checkout
       uses: actions/checkout@v3
-    - name: increment version  
-      run: bc <<< "1 + $(<./Version)" > ./Version    
+    - name: increment version
+      id: new_ver
+      run: |
+        bc <<< "1 + $(<./Version)" > ./Version    
+        echo $(cat ./Version) >> $GITHUB_OUTPUT
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat ./Version)
       
@@ -33,13 +36,28 @@ jobs:
     - name: push to docker hub  
       run: docker push -a mastashoff/myapp
         
+
+---      
+  update_manifest_for_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: checkout 
+        env:
+          USERNAME: ${{ github.actor }}
+          PASSWORD: ${{ secrets.MYAPP_GH_TOKEN }}
+        uses: actions/checkout@v3
+        with:
+          repository: mastashoff/myapp-to-k8s
+          ssh-key: $PASSWORD
+    
+    - name: update deploy version
+      run: sed -i 's/myapp:*/myapp:______________/g'
     - name: git push 
       run: |
        git config --global user.email 'mastashoff@gmail.com'
        git config --global user.name 'Yury Y'
        git commit -am 'Upgrade myapp ${{ steps.image.outputs.tag }}' && git push
-      
-      
       
       
       
