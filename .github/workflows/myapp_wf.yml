@@ -22,7 +22,7 @@ jobs:
     - name: login
       run: |
         echo {{ github.event_name }}
-        docker login --username "$DOCKER_USERNAME" --password-stdin <<< "$DOCKER_TOKEN"
+        docker login --username mastashoff --password-stdin <<< "$DOCKER_TOKEN"
       if: github.event_name == 'push'
       env:
         USERNAME: ${{ github.actor }}
