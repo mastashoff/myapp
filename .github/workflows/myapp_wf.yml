@@ -30,19 +30,20 @@ jobs:
       run: |
         echo "name=value" >> $GITHUB_OUTPUT
         echo "vesion_output=7" >> $GITHUB_OUTPUT
-        
+    - name: echoes
+      run:
         cat Version
 
-        echo ${{ steps }}
-        echo step1 ${{steps.set_new_version.outputs.version_output}}
-        echo name ${{ steps.set_new_version.outputs.name }}
+        echo 1 ${{ steps }}
+        echo 2 step1 ${{steps.set_new_version.outputs.version_output}}
+        echo 3 name ${{ steps.set_new_version.outputs.NAME }}
         echo ---------
         echo ${{ steps.set_new_version.outputs }}
         echo ---------
         ls -la /home/runner/work/_temp/_runner_file_commands/
         cat /home/runner/work/_temp/_runner_file_commands/*
         echo ---------
-        echo $GITHUB_OUTPUT
+        cat $(echo $GITHUB_OUTPUT)
         echo ---------
         export
         
