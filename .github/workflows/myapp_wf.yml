@@ -67,8 +67,7 @@ jobs:
         
       - name: update deploy version
         run: |
-          #sed -i s~\/myapp\:.*~\/myapp\:v${{needs.build_new_image.outputs.output1}}~g k8s/deploy.yml
-          echo variable_version is ${{needs.build_new_image.outputs.output1}}
+          sed -i s~\/myapp\:.*~\/myapp\:v${{needs.build_new_image.outputs.output1}}~g k8s/deploy.yml
       - name: git push 
         run: |
          git config --global user.email 'mastashoff@gmail.com'
