@@ -29,7 +29,7 @@ jobs:
       id: set_new_version
       run: |
         echo "name=value" >> $GITHUB_OUTPUT
-        echo "vesion_output=$(cat Version)" >> $GITHUB_OUTPUT
+        echo "verout=$(cat Version)" >> $GITHUB_OUTPUT
     - name: echoes
       run: |
         cat Version
