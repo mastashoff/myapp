@@ -33,23 +33,17 @@ jobs:
     - name: echoes
       run: |
         cat Version
-
-        echo 1 ${{ steps }}
-        echo 2 step1 ${{ steps.set_new_version.outputs.verout }}
-        echo 3 name ${{ steps.set_new_version.outputs.NAME }}
-        echo 4  ${{steps.set_new_version.outputs.VEROUT}}
-        echo 5 step1 ${{steps.set_new_version.outputs.verout}}
-        echo 6  ${{ steps.set_new_version.outputs.VEROUT }}
+        
+        echo sE name ${{ steps.set_new_version.outputs.NAME }}
+        echo se name ${{ steps.set_new_version.outputs.name }}
+        echo E name ${{steps.set_new_version.outputs.NAME}}
+        echo e name ${{steps.set_new_version.outputs.name}}
+        
+        echo sv ${{ steps.set_new_version.outputs.verout }}
+        echo V ${{steps.set_new_version.outputs.VEROUT}}
+        echo v ${{steps.set_new_version.outputs.verout}}
+        echo sV ${{ steps.set_new_version.outputs.VEROUT }}
         echo ---------
-        echo ${{ steps.set_new_version.outputs }}
-        echo ---------
-        cat $(echo $GITHUB_OUTPUT)
-        echo ---------
-        echo ---------
-        ls -la /home/runner/work/_temp/_runner_file_commands/
-        cat /home/runner/work/_temp/_runner_file_commands/*
-
-        export
         
     - name: Build the Docker image
       if: ${{ false }}  # disable for now
