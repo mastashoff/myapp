@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       output1: ${{ steps.set_new_version.outputs.version_output }}
-      output2: ${{ steps.set_new_version.outputs.version_output2 }}
+      output2: ${{ steps.set_new_version.outputs.name }}
     
     steps:
     - name: checkout
@@ -28,6 +28,7 @@ jobs:
     - name: set_output
       id: set_new_version
       run: |
+        echo "name=value" >> $GITHUB_OUTPUT
         echo "vesion_output=7" >> $GITHUB_OUTPUT
         
         cat Version
@@ -36,7 +37,9 @@ jobs:
         echo variable_version is ${{ needs.build_new_image.outputs.output2 }}
         echo step1 ${{steps.set_new_version.outputs.version_output}}
         echo step2 ${{ steps.set_new_version.outputs.version_output2 }}
-
+        echo name ${{ steps.set_new_version.outputs.name }}
+        export
+        
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat Version)
       
