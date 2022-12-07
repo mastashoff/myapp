@@ -32,7 +32,7 @@ jobs:
        git commit -am 'Update Version file to ${{ steps.set_new_version.outputs.verout }}' && git push
        
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mastashoff/myapp:v${{steps.set_new_version.outputs.verout}}
+      run: docker build --file Dockerfile --tag mastashoff/myapp:v${{steps.set_new_version.outputs.verout}} --tag mastashoff/myapp:latest .
       
     - name: login
       run: |
