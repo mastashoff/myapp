@@ -17,11 +17,14 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
     - name: current_version
-      run: echo cat ./Version
+      run: |
+        ls -la
+        cat Version
     - name: increment version
       id: set_new_version
       run: |
         bc <<< "1 + $(<./Version)" > ./Version
+        cat Version
         echo new vversion is $(cat ./Version)
         echo "vesion_output=$(cat ./Version)" >> $GITHUB_OUTPUT
     - name: Build the Docker image
