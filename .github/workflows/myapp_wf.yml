@@ -30,6 +30,8 @@ jobs:
         echo vesion_output=$(cat Version) >> $GITHUB_OUTPUT
         echo variable_version is ${{needs.build_new_image.outputs.output1}}
         echo variable_version is ${{ needs.build_new_image.outputs.output1 }}
+        echo ${{steps.set_new_version.outputs.version_output}}
+        echo ${{ steps.set_new_version.outputs.version_output }}
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat Version)
       
