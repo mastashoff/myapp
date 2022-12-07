@@ -16,10 +16,13 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v3
+    - name: current_version
+      run: echo cat ./Version
     - name: increment version
       id: set_new_version
       run: |
-        bc <<< "1 + $(<./Version)" > ./Version    
+        bc <<< "1 + $(<./Version)" > ./Version
+        echo new vversion is $(cat ./Version)
         echo "vesion_output=$(cat ./Version)" >> $GITHUB_OUTPUT
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat ./Version)
@@ -53,8 +56,8 @@ jobs:
     
       - name: update deploy version
         run: |
-          sed -i s/myapp:*/myapp:v${{needs.build_new_image.outputs.output1}}/g ./k8s/deploy.yml
-          cat ./k8s/deploy.yml
+          #sed -i s~\/myapp\:.*~\/myapp\:v${{needs.build_new_image.outputs.output1}}~g ./k8s/deploy.yml
+          echo variable_version is ${{needs.build_new_image.outputs.output1}}
       - name: git push 
         run: |
          git config --global user.email 'mastashoff@gmail.com'
