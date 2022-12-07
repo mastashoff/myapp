@@ -21,12 +21,13 @@ jobs:
         ls -la
         cat Version
     - name: increment version
-      id: set_new_version
       run: |
         bc <<< "1 + $(<Version)" > Version
         cat Version
         echo new vversion is $(cat Version)
-        echo "vesion_output=$(cat Version)" >> $GITHUB_OUTPUT
+    - name: set_output
+      id: set_new_version
+      run: echo "vesion_output=$(cat Version)" >> $GITHUB_OUTPUT
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat Version)
       
@@ -60,10 +61,10 @@ jobs:
     
       - name: update deploy version
         run: |
-          #sed -i s~\/myapp\:.*~\/myapp\:v${{needs.build_new_image.outputs.output1}}~g ./k8s/deploy.yml
+          #sed -i s~\/myapp\:.*~\/myapp\:v${{needs.build_new_image.outputs.output1}}~g k8s/deploy.yml
           echo variable_version is ${{needs.build_new_image.outputs.output1}}
       - name: git push 
         run: |
          git config --global user.email 'mastashoff@gmail.com'
          git config --global user.name 'Yury Y'
-         git commit -am 'Update myapp to version ${{needs.build_new_image.outputs.output1}}, ${{ steps.image.outputs.tag }}' && git push
+         git commit -am 'Update myapp to version ${{ needs.build_new_image.outputs.output1 }}, ${{ steps.image.outputs.tag }}' && git push
