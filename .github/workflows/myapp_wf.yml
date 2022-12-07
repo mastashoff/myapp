@@ -43,7 +43,7 @@ jobs:
       run: docker push -a mastashoff/myapp
           
   update_manifest_for_deploy:
-    if: ${{ false }}  # disable for now
+    #if: ${{ false }}  # disable for now
     needs: build_new_image
     runs-on: ubuntu-latest
     
