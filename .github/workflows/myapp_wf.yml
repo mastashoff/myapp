@@ -11,8 +11,7 @@ jobs:
   build_new_image:
     runs-on: ubuntu-latest
     outputs:
-      out1: ${{ steps.set_new_version.outputs.verout }}
-      out2: ${{ steps.set_new_version.outputs.name }}
+      output1: ${{ steps.set_new_version.outputs.verout }}
     
     steps:
     - name: checkout
@@ -28,26 +27,15 @@ jobs:
     - name: set_output
       id: set_new_version
       run: |
-        echo "name=value" >> $GITHUB_OUTPUT
         echo "verout=$(cat Version)" >> $GITHUB_OUTPUT
-    - name: echoes
+    - name: update Version file
       run: |
-        cat Version
-        
-        echo sE name ${{ steps.set_new_version.outputs.NAME }}
-        echo se name ${{ steps.set_new_version.outputs.name }}
-        echo E name ${{steps.set_new_version.outputs.NAME}}
-        echo e name ${{steps.set_new_version.outputs.name}}
-        
-        echo sv ${{ steps.set_new_version.outputs.verout }}
-        echo V ${{steps.set_new_version.outputs.VEROUT}}
-        echo v ${{steps.set_new_version.outputs.verout}}
-        echo sV ${{ steps.set_new_version.outputs.VEROUT }}
-        echo ---------
-        
+       git config --global user.email 'mastashoff@gmail.com'
+       git config --global user.name 'Yury Y'
+       git commit -am 'Update Version file to ${{ steps.set_new_version.outputs.verout }}' && git push
     - name: Build the Docker image
       if: ${{ false }}  # disable for now
-      run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat Version)
+      run: docker build . --file Dockerfile --tag mastashoff/myapp:v${{steps.set_new_version.outputs.verout}}
       
     - name: login
       run: |
@@ -58,7 +46,6 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.MYAPP_DOCKER_USER }}
         DOCKER_TOKEN: ${{ secrets.MYAPP_DOCKER_TOKEN }}
-    
     - name: push to docker hub 
       if: ${{ false }}  # disable for now
       run: docker push -a mastashoff/myapp
@@ -72,6 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      
       - name: checkout 
         env:
           USERNAME: ${{ github.actor }}
@@ -81,7 +69,6 @@ jobs:
           repository: mastashoff/myapp-to-k8s
           ssh-key: ${{ secrets.MYAPP_GH_TOKEN }}
         
-    
       - name: update deploy version
         run: |
           #sed -i s~\/myapp\:.*~\/myapp\:v${{needs.build_new_image.outputs.output1}}~g k8s/deploy.yml
