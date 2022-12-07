@@ -23,11 +23,12 @@ jobs:
     - name: increment version
       run: |
         bc <<< "1 + $(<Version)" > Version
-        cat Version
         echo new vversion is $(cat Version)
     - name: set_output
       id: set_new_version
-      run: echo "vesion_output=$(cat Version)" >> $GITHUB_OUTPUT
+      run: |
+        echo "vesion_output=$(cat Version)" >> $GITHUB_OUTPUT
+        echo variable_version is ${{needs.build_new_image.outputs.output1}}
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat Version)
       
@@ -42,9 +43,12 @@ jobs:
     
     - name: push to docker hub  
       run: docker push -a mastashoff/myapp
-          
+
+
+
+
   update_manifest_for_deploy:
-    #if: ${{ false }}  # disable for now
+    if: ${{ false }}  # disable for now
     needs: build_new_image
     runs-on: ubuntu-latest
     
@@ -67,4 +71,4 @@ jobs:
         run: |
          git config --global user.email 'mastashoff@gmail.com'
          git config --global user.name 'Yury Y'
-         git commit -am 'Update myapp to version ${{ needs.build_new_image.outputs.output1 }}, ${{ steps.image.outputs.tag }}' && git push
+         git commit -am 'Update myapp image version to ${{ needs.build_new_image.outputs.output1 }}' && git push
