@@ -24,7 +24,7 @@ jobs:
       run: |
         echo "verout=$(cat Version)" >> $GITHUB_OUTPUT
     - name: Update index.html
-      run: sed -i s~version=.*~version=v${{steps.set_new_version.outputs.verout}}~g source/index.html
+      run: sed -i s~Version=.*~Version=v${{steps.set_new_version.outputs.verout}}~g source/index.html
     - name: update Version file
       run: |
        git config --global user.email 'mastashoff@gmail.com'
