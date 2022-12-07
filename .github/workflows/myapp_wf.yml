@@ -23,12 +23,12 @@ jobs:
     - name: increment version
       id: set_new_version
       run: |
-        bc <<< "1 + $(<./Version)" > ./Version
+        bc <<< "1 + $(<Version)" > Version
         cat Version
-        echo new vversion is $(cat ./Version)
-        echo "vesion_output=$(cat ./Version)" >> $GITHUB_OUTPUT
+        echo new vversion is $(cat Version)
+        echo "vesion_output=$(cat Version)" >> $GITHUB_OUTPUT
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat ./Version)
+      run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat Version)
       
     - name: login
       run: |
@@ -43,6 +43,7 @@ jobs:
       run: docker push -a mastashoff/myapp
           
   update_manifest_for_deploy:
+    if: ${{ false }}  # disable for now
     needs: build_new_image
     runs-on: ubuntu-latest
     
