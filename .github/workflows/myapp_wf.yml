@@ -11,7 +11,7 @@ jobs:
   build_new_image:
     runs-on: ubuntu-latest
     outputs:
-      out1: ${{ steps.set_new_version.outputs.version_output }}
+      out1: ${{ steps.set_new_version.outputs.verout }}
       out2: ${{ steps.set_new_version.outputs.name }}
     
     steps:
@@ -29,15 +29,17 @@ jobs:
       id: set_new_version
       run: |
         echo "name=value" >> $GITHUB_OUTPUT
-        echo "vesion_output=7" >> $GITHUB_OUTPUT
+        echo "vesion_output=$(cat Version)" >> $GITHUB_OUTPUT
     - name: echoes
       run: |
         cat Version
 
         echo 1 ${{ steps }}
-        echo 2 step1 ${{ steps.set_new_version.outputs.version_output }}
+        echo 2 step1 ${{ steps.set_new_version.outputs.verout }}
         echo 3 name ${{ steps.set_new_version.outputs.NAME }}
-        echo 4 4 ${{steps.set_new_version.outputs.VERSION_OUTPUT}}
+        echo 4  ${{steps.set_new_version.outputs.VEROUT}}
+        echo 5 step1 ${{steps.set_new_version.outputs.verout}}
+        echo 6  ${{ steps.set_new_version.outputs.VEROUT }}
         echo ---------
         echo ${{ steps.set_new_version.outputs }}
         echo ---------
