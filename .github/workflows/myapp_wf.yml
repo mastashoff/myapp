@@ -54,9 +54,9 @@ jobs:
       - name: update deploy version
         run: |
           sed -i s/myapp:*/myapp:v${{needs.build_new_image.outputs.output1}}/g ./k8s/deploy.yml
-          echo ./k8s/deploy.yml
+          cat ./k8s/deploy.yml
       - name: git push 
         run: |
-         #git config --global user.email 'mastashoff@gmail.com'
-         #git config --global user.name 'Yury Y'
+         git config --global user.email 'mastashoff@gmail.com'
+         git config --global user.name 'Yury Y'
          git commit -am 'Update myapp to version ${{needs.build_new_image.outputs.output1}}, ${{ steps.image.outputs.tag }}' && git push
