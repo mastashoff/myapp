@@ -11,8 +11,8 @@ jobs:
   build_new_image:
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.set_new_version.outputs.version_output }}
-      output2: ${{ steps.set_new_version.outputs.name }}
+      out1: ${{ steps.set_new_version.outputs.version_output }}
+      out2: ${{ steps.set_new_version.outputs.name }}
     
     steps:
     - name: checkout
@@ -32,32 +32,36 @@ jobs:
         echo "vesion_output=7" >> $GITHUB_OUTPUT
         
         cat Version
-        echo variable_version is ${{needs.build_new_image.outputs.output1}}
-        echo variable_version is ${{ needs.build_new_image.outputs.output1 }}
-        echo variable_version is ${{ needs.build_new_image.outputs.output2 }}
+
+        echo ${{ steps }}
         echo step1 ${{steps.set_new_version.outputs.version_output}}
-        echo step2 ${{ steps.set_new_version.outputs.version_output2 }}
         echo name ${{ steps.set_new_version.outputs.name }}
         echo ---------
         echo ${{ steps.set_new_version.outputs }}
         echo ---------
         ls -la /home/runner/work/_temp/_runner_file_commands/
         cat /home/runner/work/_temp/_runner_file_commands/*
+        echo ---------
+        echo $GITHUB_OUTPUT
+        echo ---------
         export
         
     - name: Build the Docker image
+      if: ${{ false }}  # disable for now
       run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat Version)
       
     - name: login
       run: |
         echo ${{ github.event_name }}
         docker login --username mastashoff --password-stdin <<< "$DOCKER_TOKEN"
-      if: github.event_name == 'push'
+      #if: github.event_name == 'push'
+      if: ${{ false }}  # disable for now
       env:
         DOCKER_USERNAME: ${{ secrets.MYAPP_DOCKER_USER }}
         DOCKER_TOKEN: ${{ secrets.MYAPP_DOCKER_TOKEN }}
     
-    - name: push to docker hub  
+    - name: push to docker hub 
+      if: ${{ false }}  # disable for now
       run: docker push -a mastashoff/myapp
 
 
