@@ -38,6 +38,8 @@ jobs:
         echo step1 ${{steps.set_new_version.outputs.version_output}}
         echo step2 ${{ steps.set_new_version.outputs.version_output2 }}
         echo name ${{ steps.set_new_version.outputs.name }}
+        echo ---------
+        echo ${{ steps.set_new_version.outputs }}
         export
         
     - name: Build the Docker image
