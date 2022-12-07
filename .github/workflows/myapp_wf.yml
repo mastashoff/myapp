@@ -47,7 +47,7 @@ jobs:
           PASSWORD: ${{ secrets.MYAPP_GH_TOKEN }}
         uses: actions/checkout@v3
         with:
-          repository: $USERNAME/myapp-to-k8s
+          repository: mastashoff/myapp-to-k8s
           ssh-key: $PASSWORD
     
       - name: update deploy version
