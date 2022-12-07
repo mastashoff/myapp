@@ -34,30 +34,26 @@ jobs:
        git config --global user.name 'Yury Y'
        git commit -am 'Update Version file to ${{ steps.set_new_version.outputs.verout }}' && git push
     - name: Build the Docker image
-      if: ${{ false }}  # disable for now
       run: docker build . --file Dockerfile --tag mastashoff/myapp:v${{steps.set_new_version.outputs.verout}}
       
     - name: login
       run: |
         echo ${{ github.event_name }}
         docker login --username mastashoff --password-stdin <<< "$DOCKER_TOKEN"
-      #if: github.event_name == 'push'
-      if: ${{ false }}  # disable for now
+      if: github.event_name == 'push'
       env:
         DOCKER_USERNAME: ${{ secrets.MYAPP_DOCKER_USER }}
         DOCKER_TOKEN: ${{ secrets.MYAPP_DOCKER_TOKEN }}
     - name: push to docker hub 
-      if: ${{ false }}  # disable for now
       run: docker push -a mastashoff/myapp
 
 
 
 
   update_manifest_for_deploy:
-    if: ${{ false }}  # disable for now
+    #if: ${{ false }}  # disable for now
     needs: build_new_image
     runs-on: ubuntu-latest
-    
     steps:
       
       - name: checkout 
