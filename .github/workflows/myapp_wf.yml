@@ -29,14 +29,14 @@ jobs:
       id: set_new_version
       run: |
         echo "vesion_output=$(cat Version)" >> $GITHUB_OUTPUT
-        run: echo "::set-output name=version_output2::fuckj"
+        
         cat Version
         echo variable_version is ${{needs.build_new_image.outputs.output1}}
         echo variable_version is ${{ needs.build_new_image.outputs.output1 }}
+        echo variable_version is ${{ needs.build_new_image.outputs.output2 }}
         echo step1 ${{steps.set_new_version.outputs.version_output}}
-        echo step2 ${{ steps.set_new_version.outputs.version_output }}
-        echo 2step ${{ steps.set_new_version.outputs.version_output2 }}
-        echo 2tep2 ${{steps.set_new_version.outputs.version_output2}}
+        echo step2 ${{ steps.set_new_version.outputs.version_output2 }}
+
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mastashoff/myapp:v$(cat Version)
       
