@@ -28,7 +28,7 @@ jobs:
     - name: set_output
       id: set_new_version
       run: |
-        echo "vesion_output=$(cat Version)" >> $GITHUB_OUTPUT
+        echo "vesion_output=7" >> $GITHUB_OUTPUT
         
         cat Version
         echo variable_version is ${{needs.build_new_image.outputs.output1}}
