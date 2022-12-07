@@ -48,7 +48,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: mastashoff/myapp-to-k8s
-          ssh-key: $PASSWORD
+          ssh-key: ${{ secrets.MYAPP_GH_TOKEN }}
+        
     
       - name: update deploy version
         run: sed -i s/myapp:*/myapp:v${{needs.build_new_image.outputs.output1}}/g ./k8s/deploy.yml
