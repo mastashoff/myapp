@@ -40,6 +40,9 @@ jobs:
         echo name ${{ steps.set_new_version.outputs.name }}
         echo ---------
         echo ${{ steps.set_new_version.outputs }}
+        echo ---------
+        ls -la /home/runner/work/_temp/_runner_file_commands/
+        cat /home/runner/work/_temp/_runner_file_commands/*
         export
         
     - name: Build the Docker image
